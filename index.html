@@ -4,22 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Forex &amp; Commodity Control Panel · Real-Time Prices</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css">
-
-  <!-- Chart.js Core & Adapters -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
 </head>
 <body>
   <div class="app-container">
-    <!-- HEADER -->
+    <!-- ============ HEADER ============ -->
     <header class="app-header">
       <div class="header-brand">
         <div class="logo-mark">FX</div>
@@ -44,7 +39,7 @@
       </div>
     </header>
 
-    <!-- ASSET SELECTOR -->
+    <!-- ============ ASSET SELECTOR ============ -->
     <section class="pair-selector">
       <div class="selector-group">
         <h3 class="selector-group-title">
@@ -164,7 +159,7 @@
       </div>
     </section>
 
-    <!-- MAIN ROW -->
+    <!-- ============ MAIN ROW ============ -->
     <div class="main-row">
       <div class="card price-card">
         <div class="card-header">
@@ -213,18 +208,27 @@
       </div>
     </div>
 
-    <!-- INDICATORS -->
+    <!-- ============ INDICATORS ============ -->
     <div class="indicators-grid">
       <!-- SMA -->
       <div class="card indicator-card">
         <div class="card-header">
-          <h2>SMA</h2>
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l6-6 6 6 6-10"/><path d="M3 22h18"/></svg>
+            SMA
+          </h2>
           <span class="badge badge-soft">Simple Moving Average</span>
         </div>
         <p class="indicator-desc">Arithmetic mean of past prices. Smoothes fluctuations but reacts slowly.</p>
         <div class="indicator-values">
-          <div class="ind-item"><span class="ind-label">SMA 20</span><span class="ind-value" id="sma20">--</span></div>
-          <div class="ind-item"><span class="ind-label">SMA 50</span><span class="ind-value" id="sma50">--</span></div>
+          <div class="ind-item">
+            <span class="ind-label">SMA 20</span>
+            <span class="ind-value" id="sma20">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">SMA 50</span>
+            <span class="ind-value" id="sma50">--</span>
+          </div>
         </div>
         <div class="chart-mini"><canvas id="smaChart"></canvas></div>
       </div>
@@ -232,13 +236,22 @@
       <!-- EMA -->
       <div class="card indicator-card">
         <div class="card-header">
-          <h2>EMA</h2>
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l6-4 6 6 6-12"/><path d="M3 22h18"/></svg>
+            EMA
+          </h2>
           <span class="badge badge-soft">Exponential Moving Average</span>
         </div>
         <p class="indicator-desc">Gives more weight to recent prices. Reacts faster to trend changes.</p>
         <div class="indicator-values">
-          <div class="ind-item"><span class="ind-label">EMA 12</span><span class="ind-value" id="ema12">--</span></div>
-          <div class="ind-item"><span class="ind-label">EMA 26</span><span class="ind-value" id="ema26">--</span></div>
+          <div class="ind-item">
+            <span class="ind-label">EMA 12</span>
+            <span class="ind-value" id="ema12">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">EMA 26</span>
+            <span class="ind-value" id="ema26">--</span>
+          </div>
         </div>
         <div class="chart-mini"><canvas id="emaChart"></canvas></div>
       </div>
@@ -246,13 +259,22 @@
       <!-- RSI -->
       <div class="card indicator-card">
         <div class="card-header">
-          <h2>RSI</h2>
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            RSI
+          </h2>
           <span class="badge badge-soft">Relative Strength Index</span>
         </div>
         <p class="indicator-desc">Measures the speed of price movements. Signals overbought or oversold conditions.</p>
         <div class="indicator-values">
-          <div class="ind-item"><span class="ind-label">RSI (14)</span><span class="ind-value" id="rsiValue">--</span></div>
-          <div class="ind-item"><span class="ind-label">State</span><span class="ind-value" id="rsiState">--</span></div>
+          <div class="ind-item">
+            <span class="ind-label">RSI (14)</span>
+            <span class="ind-value" id="rsiValue">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">State</span>
+            <span class="ind-value" id="rsiState">--</span>
+          </div>
         </div>
         <div class="chart-mini"><canvas id="rsiChart"></canvas></div>
       </div>
@@ -260,14 +282,26 @@
       <!-- MACD -->
       <div class="card indicator-card">
         <div class="card-header">
-          <h2>MACD</h2>
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+            MACD
+          </h2>
           <span class="badge badge-soft">Convergence Divergence</span>
         </div>
         <p class="indicator-desc">Shows the relationship between two moving averages. Identifies reversals and momentum strength.</p>
         <div class="indicator-values">
-          <div class="ind-item"><span class="ind-label">MACD</span><span class="ind-value" id="macdLine">--</span></div>
-          <div class="ind-item"><span class="ind-label">Signal</span><span class="ind-value" id="macdSignal">--</span></div>
-          <div class="ind-item"><span class="ind-label">Histogram</span><span class="ind-value" id="macdHist">--</span></div>
+          <div class="ind-item">
+            <span class="ind-label">MACD</span>
+            <span class="ind-value" id="macdLine">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">Signal</span>
+            <span class="ind-value" id="macdSignal">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">Histogram</span>
+            <span class="ind-value" id="macdHist">--</span>
+          </div>
         </div>
         <div class="chart-mini"><canvas id="macdChart"></canvas></div>
       </div>
@@ -275,23 +309,38 @@
       <!-- Stochastic -->
       <div class="card indicator-card">
         <div class="card-header">
-          <h2>Stochastic</h2>
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Stochastic
+          </h2>
           <span class="badge badge-soft">Oscillator</span>
         </div>
         <p class="indicator-desc">Compares the closing price with the recent range. Identifies potential reversal points.</p>
         <div class="indicator-values">
-          <div class="ind-item"><span class="ind-label">%K</span><span class="ind-value" id="stochK">--</span></div>
-          <div class="ind-item"><span class="ind-label">%D</span><span class="ind-value" id="stochD">--</span></div>
-          <div class="ind-item"><span class="ind-label">Signal</span><span class="ind-value" id="stochState">--</span></div>
+          <div class="ind-item">
+            <span class="ind-label">%K</span>
+            <span class="ind-value" id="stochK">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">%D</span>
+            <span class="ind-value" id="stochD">--</span>
+          </div>
+          <div class="ind-item">
+            <span class="ind-label">Signal</span>
+            <span class="ind-value" id="stochState">--</span>
+          </div>
         </div>
         <div class="chart-mini"><canvas id="stochChart"></canvas></div>
       </div>
     </div>
 
-    <!-- RADAR TABLE -->
+    <!-- ============ RADAR TABLE ============ -->
     <section class="card radar-card">
       <div class="card-header">
-        <h2>Radar · Most Overbought &amp; Oversold</h2>
+        <h2>
+          <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          Radar · Most Overbought &amp; Oversold
+        </h2>
         <span class="badge badge-soft" id="radarCount">0 assets</span>
       </div>
       <p class="radar-desc">Assets with RSI &gt; 70 (overbought) or RSI &lt; 30 (oversold). Green dot = overbought · Red dot = oversold.</p>
@@ -314,11 +363,90 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
+    <!-- ============ FOOTER ============ -->
     <footer class="app-footer">
       <div class="footer-credit">
-        Market data provided by <strong>biquote.io</strong> · MetaTrader 5 feed
+        <svg class="footer-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        Market data provided by <strong>biquote.io</strong> · MetaTrader 5 feed · Auto-refresh every 5 seconds
       </div>
+
+      <div class="disclaimer">
+        <div class="disclaimer-header">
+          <svg class="disclaimer-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <h3>Financial Disclaimer &amp; Risk Warning</h3>
+        </div>
+
+        <div class="disclaimer-grid">
+          <div class="disclaimer-section">
+            <h4>1. No Financial Advice</h4>
+            <p>The information, data, charts, indicators, signals, and any other content displayed on this panel (the "Service") are provided strictly for <strong>informational and educational purposes only</strong>. Nothing on this page constitutes, or should be construed as, financial, investment, trading, legal, tax, or any other form of professional advice. The Service does not recommend, solicit, or endorse the purchase, sale, or holding of any currency pair, commodity, cryptocurrency, security, derivative, or financial instrument. You should not rely on any information displayed here to make investment or trading decisions.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>2. No Fiduciary Relationship</h4>
+            <p>Use of this Service does not create any fiduciary, advisory, broker-client, or professional relationship between you and the operator of this panel, its developers, contributors, or data providers. No person associated with this Service is acting as your financial advisor, broker, or agent.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>3. Data Accuracy &amp; Delays</h4>
+            <p>Market data is sourced from third-party providers and may be <strong>delayed, incomplete, inaccurate, or subject to interruption</strong>. Prices, spreads, indicators, and any derived values (including but not limited to SMA, EMA, RSI, MACD, and Stochastic calculations) are generated automatically and may contain errors, calculation artifacts, or transmission delays. Real-time accuracy is not guaranteed. The displayed quotes may differ from those available on your broker's platform, exchange, or execution venue. Always verify prices and data independently with your broker or a licensed data provider before acting on any information.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>4. High-Risk Warning — Leverage &amp; Margin</h4>
+            <p>Trading foreign exchange (Forex), contracts for difference (CFDs), commodities, cryptocurrencies, and other leveraged products carries a <strong>high level of risk</strong> and may not be suitable for all investors. Leverage can work against you as easily as it works for you. You could sustain a loss of some or all of your initial investment and, in certain cases, losses exceeding your deposited funds. Cryptocurrencies are particularly volatile and unregulated in many jurisdictions. Before trading, carefully consider your investment objectives, experience level, and risk tolerance. Never trade with money you cannot afford to lose.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>5. Past Performance</h4>
+            <p>Past performance, historical prices, backtested results, and technical indicator readings are <strong>not indicative of future results</strong>. Technical analysis tools such as SMA, EMA, RSI, MACD, and the Stochastic oscillator are mathematical constructs based on historical price data; they do not predict future market movements and should never be used as the sole basis for any trading decision.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>6. No Warranty</h4>
+            <p>The Service is provided on an <strong>"as is" and "as available"</strong> basis, without warranties of any kind, either express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, accuracy, timeliness, or non-infringement. The operator makes no warranty that the Service will be uninterrupted, error-free, secure, or free of viruses or other harmful components.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>7. Limitation of Liability</h4>
+            <p>To the fullest extent permitted by applicable law, the operator, developers, contributors, data providers, and affiliates of this panel shall <strong>not be liable</strong> for any direct, indirect, incidental, special, consequential, punitive, or exemplary damages — including but not limited to loss of profits, loss of data, loss of business, trading losses, or any other financial loss — arising out of or in connection with your access to, use of, reliance on, or inability to use the Service, even if advised of the possibility of such damages.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>8. Third-Party Data &amp; Content</h4>
+            <p>This panel aggregates data from third-party providers. The operator does not control, verify, or endorse the accuracy of such data. All trademarks, logos, and brand names referenced are the property of their respective owners and are used for identification purposes only. Reference to any specific asset, instrument, or data provider does not imply endorsement or recommendation.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>9. Regulatory Notice</h4>
+            <p>Regulations governing financial instruments, Forex trading, CFD trading, and cryptocurrency trading vary significantly by jurisdiction. It is your sole responsibility to ensure that your use of the Service complies with all applicable laws and regulations in your country of residence. The Service is not directed at, and is not intended for use by, any person in any jurisdiction where such distribution or use would be contrary to local law or regulation.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>10. No Offer or Solicitation</h4>
+            <p>Nothing on this panel constitutes an offer, solicitation, or recommendation to buy or sell any financial instrument in any jurisdiction. The Service is not intended to be used for the purpose of offering, marketing, or selling securities, derivatives, or any financial products.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>11. User Responsibility</h4>
+            <p>You are solely responsible for your own trading and investment decisions. You should seek independent professional advice from a licensed financial advisor, accountant, or legal counsel before making any financial decision. Any reliance you place on the information provided by this Service is strictly at your own risk.</p>
+          </div>
+
+          <div class="disclaimer-section">
+            <h4>12. Changes to This Disclaimer</h4>
+            <p>The operator reserves the right to modify, update, or replace this disclaimer at any time without prior notice. Continued use of the Service after any changes constitutes acceptance of the revised terms.</p>
+          </div>
+        </div>
+
+        <div class="disclaimer-footer">
+          <p>By using this panel, you acknowledge that you have read, understood, and agreed to this Financial Disclaimer and Risk Warning in its entirety.</p>
+        </div>
+      </div>
+
       <div class="footer-bottom">
         <p>© <span id="year"></span> Forex &amp; Commodity Control Panel · All rights reserved</p>
       </div>
