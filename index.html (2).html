@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forex &amp; Commodity Control Panel · Real-Time Prices</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js Core & Adapters -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/date-fns@2.30.0/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial@0.2.1/dist/chartjs-chart-financial.min.js"></script>
+</head>
+<body>
+  <div class="app-container">
+    <!-- HEADER -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-mark">FX</div>
+        <div>
+          <h1>Forex &amp; Commodity Control Panel</h1>
+          <p class="subtitle">Real-Time Prices · Technical Indicators · Radar</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="refresh-btn" id="refreshBtn" title="Refresh data (F5)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-2.64-6.36"/>
+            <polyline points="21 3 21 9 15 9"/>
+          </svg>
+          <span>F5 Refresh</span>
+        </button>
+        <div class="header-status">
+          <span class="status-dot" id="statusDot"></span>
+          <span id="statusText">Connecting…</span>
+          <span class="timestamp" id="lastUpdate">--:--:--</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ASSET SELECTOR -->
+    <section class="pair-selector">
+      <div class="selector-group">
+        <h3 class="selector-group-title">
+          <svg class="group-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Forex
+        </h3>
+        <div class="selector-buttons">
+          <button class="pair-btn active" data-pair="EURUSD">
+            <span class="flag">🇪🇺</span>
+            <span class="pair-name">EUR/USD</span>
+            <span class="pair-alias">Euro / Dollar</span>
+          </button>
+          <button class="pair-btn" data-pair="USDJPY">
+            <span class="flag">🇯🇵</span>
+            <span class="pair-name">USD/JPY</span>
+            <span class="pair-alias">Gopher</span>
+          </button>
+          <button class="pair-btn" data-pair="GBPUSD">
+            <span class="flag">🇬🇧</span>
+            <span class="pair-name">GBP/USD</span>
+            <span class="pair-alias">Cable</span>
+          </button>
+          <button class="pair-btn" data-pair="USDCHF">
+            <span class="flag">🇨🇭</span>
+            <span class="pair-name">USD/CHF</span>
+            <span class="pair-alias">Swissie</span>
+          </button>
+          <button class="pair-btn" data-pair="AUDUSD">
+            <span class="flag">🇦🇺</span>
+            <span class="pair-name">AUD/USD</span>
+            <span class="pair-alias">Aussie</span>
+          </button>
+          <button class="pair-btn" data-pair="USDCAD">
+            <span class="flag">🇨🇦</span>
+            <span class="pair-name">USD/CAD</span>
+            <span class="pair-alias">Loonie</span>
+          </button>
+          <button class="pair-btn" data-pair="NZDUSD">
+            <span class="flag">🇳🇿</span>
+            <span class="pair-name">NZD/USD</span>
+            <span class="pair-alias">Kiwi</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="selector-group">
+        <h3 class="selector-group-title">
+          <svg class="group-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          Commodities
+        </h3>
+        <div class="selector-buttons">
+          <button class="pair-btn" data-pair="XAUUSD">
+            <span class="flag">🥇</span>
+            <span class="pair-name">XAU/USD</span>
+            <span class="pair-alias">Gold / Dollar</span>
+          </button>
+          <button class="pair-btn" data-pair="XAGUSD">
+            <span class="flag">🥈</span>
+            <span class="pair-name">XAG/USD</span>
+            <span class="pair-alias">Silver / Dollar</span>
+          </button>
+          <button class="pair-btn" data-pair="USOIL">
+            <span class="flag">🛢️</span>
+            <span class="pair-name">USOIL</span>
+            <span class="pair-alias">Crude Oil WTI</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="selector-group">
+        <h3 class="selector-group-title">
+          <svg class="group-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Crypto
+        </h3>
+        <div class="selector-buttons">
+          <button class="pair-btn" data-pair="BTCUSD">
+            <span class="flag">₿</span>
+            <span class="pair-name">BTC/USD</span>
+            <span class="pair-alias">Bitcoin</span>
+          </button>
+          <button class="pair-btn" data-pair="ETHUSD">
+            <span class="flag">⟠</span>
+            <span class="pair-name">ETH/USD</span>
+            <span class="pair-alias">Ethereum</span>
+          </button>
+          <button class="pair-btn" data-pair="XRPUSD">
+            <span class="flag">✕</span>
+            <span class="pair-name">XRP/USD</span>
+            <span class="pair-alias">Ripple</span>
+          </button>
+          <button class="pair-btn" data-pair="BNBUSD">
+            <span class="flag">🔶</span>
+            <span class="pair-name">BNB/USD</span>
+            <span class="pair-alias">Binance Coin</span>
+          </button>
+          <button class="pair-btn" data-pair="SOLUSD">
+            <span class="flag">◎</span>
+            <span class="pair-name">SOL/USD</span>
+            <span class="pair-alias">Solana</span>
+          </button>
+          <button class="pair-btn" data-pair="ADAUSD">
+            <span class="flag">🔷</span>
+            <span class="pair-name">ADA/USD</span>
+            <span class="pair-alias">Cardano</span>
+          </button>
+          <button class="pair-btn" data-pair="DOGEUSD">
+            <span class="flag">🐕</span>
+            <span class="pair-name">DOGE/USD</span>
+            <span class="pair-alias">Dogecoin</span>
+          </button>
+          <button class="pair-btn" data-pair="LTCUSD">
+            <span class="flag">Ł</span>
+            <span class="pair-name">LTC/USD</span>
+            <span class="pair-alias">Litecoin</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN ROW -->
+    <div class="main-row">
+      <div class="card price-card">
+        <div class="card-header">
+          <h2 id="pricePairLabel">EUR/USD</h2>
+          <span class="badge" id="priceBadge">Live</span>
+        </div>
+        <div class="price-display">
+          <span class="price-value" id="priceValue">--</span>
+          <span class="price-change" id="priceChange">--</span>
+        </div>
+        <div class="price-meta">
+          <div class="meta-item">
+            <span class="meta-label">Bid</span>
+            <span class="meta-value" id="bidValue">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Ask</span>
+            <span class="meta-value" id="askValue">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Spread</span>
+            <span class="meta-value" id="spreadValue">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">High</span>
+            <span class="meta-value" id="highValue">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Low</span>
+            <span class="meta-value" id="lowValue">--</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card chart-card">
+        <div class="card-header">
+          <h2>
+            <svg class="icon-inline" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 16l4-8 4 5 4-9"/></svg>
+            Candlestick Chart
+          </h2>
+          <span class="badge badge-soft">1H</span>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="candleChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- INDICATORS -->
+    <div class="indicators-grid">
+      <!-- SMA -->
+      <div class="card indicator-card">
+        <div class="card-header">
+          <h2>SMA</h2>
+          <span class="badge badge-soft">Simple Moving Average</span>
+        </div>
+        <p class="indicator-desc">Arithmetic mean of past prices. Smoothes fluctuations but reacts slowly.</p>
+        <div class="indicator-values">
+          <div class="ind-item"><span class="ind-label">SMA 20</span><span class="ind-value" id="sma20">--</span></div>
+          <div class="ind-item"><span class="ind-label">SMA 50</span><span class="ind-value" id="sma50">--</span></div>
+        </div>
+        <div class="chart-mini"><canvas id="smaChart"></canvas></div>
+      </div>
+
+      <!-- EMA -->
+      <div class="card indicator-card">
+        <div class="card-header">
+          <h2>EMA</h2>
+          <span class="badge badge-soft">Exponential Moving Average</span>
+        </div>
+        <p class="indicator-desc">Gives more weight to recent prices. Reacts faster to trend changes.</p>
+        <div class="indicator-values">
+          <div class="ind-item"><span class="ind-label">EMA 12</span><span class="ind-value" id="ema12">--</span></div>
+          <div class="ind-item"><span class="ind-label">EMA 26</span><span class="ind-value" id="ema26">--</span></div>
+        </div>
+        <div class="chart-mini"><canvas id="emaChart"></canvas></div>
+      </div>
+
+      <!-- RSI -->
+      <div class="card indicator-card">
+        <div class="card-header">
+          <h2>RSI</h2>
+          <span class="badge badge-soft">Relative Strength Index</span>
+        </div>
+        <p class="indicator-desc">Measures the speed of price movements. Signals overbought or oversold conditions.</p>
+        <div class="indicator-values">
+          <div class="ind-item"><span class="ind-label">RSI (14)</span><span class="ind-value" id="rsiValue">--</span></div>
+          <div class="ind-item"><span class="ind-label">State</span><span class="ind-value" id="rsiState">--</span></div>
+        </div>
+        <div class="chart-mini"><canvas id="rsiChart"></canvas></div>
+      </div>
+
+      <!-- MACD -->
+      <div class="card indicator-card">
+        <div class="card-header">
+          <h2>MACD</h2>
+          <span class="badge badge-soft">Convergence Divergence</span>
+        </div>
+        <p class="indicator-desc">Shows the relationship between two moving averages. Identifies reversals and momentum strength.</p>
+        <div class="indicator-values">
+          <div class="ind-item"><span class="ind-label">MACD</span><span class="ind-value" id="macdLine">--</span></div>
+          <div class="ind-item"><span class="ind-label">Signal</span><span class="ind-value" id="macdSignal">--</span></div>
+          <div class="ind-item"><span class="ind-label">Histogram</span><span class="ind-value" id="macdHist">--</span></div>
+        </div>
+        <div class="chart-mini"><canvas id="macdChart"></canvas></div>
+      </div>
+
+      <!-- Stochastic -->
+      <div class="card indicator-card">
+        <div class="card-header">
+          <h2>Stochastic</h2>
+          <span class="badge badge-soft">Oscillator</span>
+        </div>
+        <p class="indicator-desc">Compares the closing price with the recent range. Identifies potential reversal points.</p>
+        <div class="indicator-values">
+          <div class="ind-item"><span class="ind-label">%K</span><span class="ind-value" id="stochK">--</span></div>
+          <div class="ind-item"><span class="ind-label">%D</span><span class="ind-value" id="stochD">--</span></div>
+          <div class="ind-item"><span class="ind-label">Signal</span><span class="ind-value" id="stochState">--</span></div>
+        </div>
+        <div class="chart-mini"><canvas id="stochChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- RADAR TABLE -->
+    <section class="card radar-card">
+      <div class="card-header">
+        <h2>Radar · Most Overbought &amp; Oversold</h2>
+        <span class="badge badge-soft" id="radarCount">0 assets</span>
+      </div>
+      <p class="radar-desc">Assets with RSI &gt; 70 (overbought) or RSI &lt; 30 (oversold). Green dot = overbought · Red dot = oversold.</p>
+      <div class="table-wrapper">
+        <table class="radar-table">
+          <thead>
+            <tr>
+              <th>Asset</th>
+              <th>Price</th>
+              <th>RSI</th>
+              <th>Stochastic %K</th>
+              <th>Condition</th>
+              <th>Signal</th>
+            </tr>
+          </thead>
+          <tbody id="radarBody">
+            <tr><td colspan="6" class="radar-empty">Loading radar…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div class="footer-credit">
+        Market data provided by <strong>biquote.io</strong> · MetaTrader 5 feed
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Forex &amp; Commodity Control Panel · All rights reserved</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
